@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/index.css"],"names":[],"mappings":"AAAA,gBACE,UAAW,CACX,UAAW,CACX,0BAA4B,CAC5B,cAAe,CACf,gBACF,CACA,mBACI,SACJ","file":"main.b80789c2.chunk.css","sourcesContent":["#tableStartPage {\n  height: 90%;\n  width: auto;\n  margin: 10px auto !important;\n  font-size: 15px;\n  margin: 50px auto;\n}\n.navRightBut:hover {\n    color: red\n}"]}
