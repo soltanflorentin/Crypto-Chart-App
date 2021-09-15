@@ -14,9 +14,10 @@ const MainContentStartPage = () => {
                 return e.json();
                 })
                 .then((data) => {
+                    console.log(data);
                     if(data){
                         for (let i=0; i < data.data.length; i++) {
-                            var xxx = {coin: data.data[i].n, "24/h": data.data[i].pc, price: data.data[i].p.toFixed(2), marketCap: data.data[i].mc.toFixed(0)};
+                            var xxx = {coin: data.data[i].n, "24/h": data.data[i].pc, "1/h": data.data[i].pch, price: data.data[i].p.toFixed(2), "bull/Bear": data.data[i].as.toFixed(2), marketCap: data.data[i].mc.toFixed(0)};
                             rowData2.push(xxx);                     
                         }
                         setRowData(rowData2);
@@ -31,13 +32,27 @@ const MainContentStartPage = () => {
         },[])
 
 
-        
+        function sentimentValue(val) {//We check the sentiment value and return the coresponding color
+            if (val <= 1.5) {
+                return "red";
+            }else if (val > 1.5 && val <= 2.5) {
+                return "lightred";
+            }else if (val > 2.5 && val <= 3.5) {
+                return "#FFCC00";
+            }else if (val > 3.5 && val <= 4.5) {
+                return "lightgreen";
+            }else if (val > 4.5) {
+                return "green";
+            }else{
+                return "black";
+            }
+        }
 
 
 
         return (
             
-                    <div className="ag-theme-alpine" style={{height: "600px", width: "80%", margin: "50px auto 0px", border: "1px solid red"}}>
+                    <div className="ag-theme-alpine" style={{height: "600px", width: "80%", margin: "50px auto 0px"}}>
                         <AgGridReact 
                             rowData={rowData}  
                             rowSelection="single"
@@ -51,7 +66,18 @@ const MainContentStartPage = () => {
                                             cellStyle={(params) => { return params.value < 0 ? {color: "red"} : {color: "green"};
                                 
                             }}></AgGridColumn>
-                            <AgGridColumn field="price" width="130px" sortable= {true} ></AgGridColumn>
+                            <AgGridColumn field= "1/h" 
+                                            width="100%"
+                                            sortable= {true} 
+                                            cellStyle={(params) => { return params.value < 0 ? {color: "red"} : {color: "green"};
+                                
+                            }}></AgGridColumn>
+                            <AgGridColumn field="price" width="120px" sortable= {true} ></AgGridColumn>
+                            <AgGridColumn field="bull/Bear" 
+                                          width="100px" 
+                                          sortable= {true} 
+                                          cellStyle={(params) => { return {color: sentimentValue(params.value)}}}>
+                            </AgGridColumn>
                             <AgGridColumn field="marketCap" width="130px" sortable= {true} ></AgGridColumn>
                         </AgGridReact>
                     </div>
